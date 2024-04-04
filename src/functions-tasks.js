@@ -128,7 +128,7 @@ function memoize(func) {
   let hasRun = false; // Flag to track whether the function has been run before
 
   // Return a new function that memoizes the result of the original function
-  return function () {
+  return function newFunc() {
     // If the function has not been run before or cache is not set, run the original function
     if (!hasRun || cache === undefined) {
       cache = func(); // Invoke the original function and cache the result
