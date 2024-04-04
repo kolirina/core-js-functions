@@ -18,7 +18,7 @@
  *
  */
 function getCurrentFunctionName() {
-  throw new Error('Not implemented');
+  return getCurrentFunctionName.name;
 }
 
 /**
@@ -32,8 +32,11 @@ function getCurrentFunctionName() {
  *   getFunctionBody(hiHello) => "function hiHello() { console.log('hello world'); }"
  *
  */
-function getFunctionBody(/* func */) {
-  throw new Error('Not implemented');
+function getFunctionBody(func) {
+  if (func) {
+    return func.toString();
+  }
+  return 0;
 }
 
 /**
@@ -50,8 +53,10 @@ function getFunctionBody(/* func */) {
  *  ]) => [0, 1, 2]
  *
  */
-function getArgumentsCount(/* funcs */) {
-  throw new Error('Not implemented');
+function getArgumentsCount(funcs) {
+  const argCount = [];
+  funcs.map((func) => argCount.push(func.length));
+  return argCount;
 }
 
 /**
@@ -70,8 +75,10 @@ function getArgumentsCount(/* funcs */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return function raiseToExponent(x) {
+    return x ** exponent;
+  };
 }
 
 /**
@@ -87,8 +94,19 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...coefficients) {
+  if (coefficients.length === 0) {
+    return null; // Return null if no coefficients are provided
+  }
+
+  // Return a function that evaluates the polynomial for a given argument 'x'
+  return function newFunc(x) {
+    let result = 0;
+    for (let i = 0; i < coefficients.length; i += 1) {
+      result += coefficients[i] * x ** (coefficients.length - 1 - i);
+    }
+    return result;
+  };
 }
 
 /**
@@ -105,8 +123,19 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  let cache; // Define a variable to store the cached result
+  let hasRun = false; // Flag to track whether the function has been run before
+
+  // Return a new function that memoizes the result of the original function
+  return function () {
+    // If the function has not been run before or cache is not set, run the original function
+    if (!hasRun || cache === undefined) {
+      cache = func(); // Invoke the original function and cache the result
+      hasRun = true; // Set the flag to true indicating that the function has been run
+    }
+    return cache; // Return the cached result
+  };
 }
 
 /**
